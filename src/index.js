@@ -24,21 +24,23 @@ const USDC_CONTRACT = new ethers.Contract(USDC_ADDR, USDC_ABI, provider)
 
 // params
 // const wager = "1000000";
-const IS_HEAD = true
+const IS_HEAD = false
 const numBets = 1
 // construct like this because we dont set the tp and sl
 const stopGain = "1000000000000000000000000000000000000000000000000000000000000000";
 const stopLoss = "1000000000000000000000000000000000000000000000000000000000000000";
 
 async function main() {
-  const wage = [2000000, 4000000, 9000000, 19000000, 40000000, 82000000, 168000000];
+  // max pain
+  // const wage = [2000000, 4000000, 9000000, 19000000, 40000000, 82000000, 168000000];
+  // med pain
+  const wage = [2000000, 4000000, 9000000, 19000000];
   let temp_fail_wage = []
   let pq;
 
   while (true) {
     pq = PriorityQueue.fromArray(wage, (a, b) => a - b);
 
-    sleep(60000)
     const beforeBalance = await USDC_CONTRACT.balanceOf(signer.address);
 
     const gasPrice = await provider.getFeeData()
@@ -54,7 +56,8 @@ async function main() {
       options,
     );
 
-    sleep(60000)
+    // 5 min - we try long the game
+    sleep(300000)
     const afterBalance = await USDC_CONTRACT.balanceOf(signer.address);
     if (parseUSDCwei(afterBalance) < parseUSDCwei(beforeBalance)) {
       temp_fail_wage.push(pq.front())
@@ -64,6 +67,7 @@ async function main() {
       console.log("gain")
       temp_fail_wage.forEach((wage) => pq.enqueue(wage));
       temp_fail_wage = []
+      sleep(300000)
     }
   }
 }
