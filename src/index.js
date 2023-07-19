@@ -1,4 +1,4 @@
-import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
+import * as dotenv from 'dotenv'
 dotenv.config()
 import { ethers, parseEther } from "ethers";
 import {
@@ -16,8 +16,7 @@ const USDC_ABI = [
 
 const ZKASINO_ADDR = "0x6acb199b7c8c67832f516f70d25fcd9d6db0ae9d";
 const USDC_ADDR = "0x04068DA6C83AFCFA0e13ba15A6696662335D5B75"
-// const provider = new ethers.JsonRpcProvider("https://rpc.ftm.tools")
-const provider = new ethers.JsonRpcProvider("https://sparkling-prettiest-gadget.fantom.discover.quiknode.pro/277c94d88347bca66107aa8bdb69294b655cbd79/")
+const provider = new ethers.JsonRpcProvider("https://rpc.ftm.tools")
 const signer = new ethers.Wallet(process.env.PK, provider);
 const ZKASINO_CONTRACT = new ethers.Contract(ZKASINO_ADDR, ZKASINO_ABI, signer)
 const USDC_CONTRACT = new ethers.Contract(USDC_ADDR, USDC_ABI, provider)
@@ -71,35 +70,6 @@ async function main() {
     }
   }
 }
-
-// function initPq() {
-//   let numbers = [1, 2, 3, 4, 5, 6];
-
-//   let pq;
-//   pq = PriorityQueue.fromArray(numbers, (a, b) => a - b);
-//   console.log("init pq", pq);
-//   pq.dequeue(); // -1
-//   pq.dequeue(); // -1
-//   // pq.dequeue(); // -1
-//   // console.log(numbers);
-//   console.log(pq.front())
-//   let a = [1, 2, 3];
-//   a.forEach((a) => pq.enqueue(a));
-//   console.log(pq); // [-5, -1, -2, 3, 0, 5, 4]
-//   console.log(pq.front())
-//   pq.dequeue()
-//   console.log(pq.front())
-//   pq.dequeue()
-//   console.log(pq.front())
-
-//   let b = [1, 2, 3];
-//   b.forEach((b) => pq.enqueue(b));
-//   console.log(pq.front())
-//   pq.dequeue()
-//   console.log(pq.front())
-//   pq.dequeue()
-//   console.log(pq.front())
-// }
 
 function parseUSDCwei(amount) {
   const usdc = parseInt(amount) / 10 ** 6;
